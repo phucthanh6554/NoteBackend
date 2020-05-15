@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use \Firebase\JWT\JWT;
 
 use App\User;
 
@@ -22,7 +23,10 @@ class Users extends Controller
         $user->fill($request->all());
 
         if($user->save())
-            return response()->json(['status' => 'Ok', 'user' => $user]);
+        {
+            $token = $this->makeJWTToken($user);
+            return response()->json(['status' => 'Ok', 'token' => $token]);
+        }
         else
             return response()->json(['status' => 'Error']);
     }
@@ -36,7 +40,8 @@ class Users extends Controller
             // Login successfully
             if($user != null && Hash::check($request->password, $user->password))
             {
-                return response()->json(['status' => 'Ok']);
+                $token = $this->makeJWTToken($user);
+                return response()->json(['status' => 'Ok', 'token' => $token]);
             }else{
                 return response()->json(['status' => 'Error'], 403);
             }
@@ -64,5 +69,19 @@ class Users extends Controller
         }else{
             return response()->json(['status' => 'Error'], 403);
         }
+    }
+
+    private function makeJWTToken($user)
+    {
+        $key = env('JWT_KEY');
+        $exp = env('JWT_EXP');
+        $payload = [
+            'id' => $user->id,
+            'name' => $user->name,
+            'email' => $user->email,
+            'exp' => strtotime("+$exp hours")
+        ];
+
+        return JWT::encode($payload, $key);
     }
 }

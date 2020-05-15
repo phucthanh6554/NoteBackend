@@ -29,12 +29,14 @@ class Notebooks extends Controller
             return response()->json(['status' => 'Error']);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         $validateData = $request->validate([
-            'user_id' => 'required'
+            'user_id' => 'required',
+            'note_id' => 'required'
         ]);
 
+        $id = $request->note_id;
         $notebook = Notebook::findOrFail($id);
 
         if($notebook->user_id != $request->user_id)
@@ -56,11 +58,14 @@ class Notebooks extends Controller
             return response()->json(['status' => 'Error']);
     }
 
-    public function delete(Request $request, $id)
+    public function delete(Request $request)
     {
         $validateData = $request->validate([
-            'user_id' => 'required'
+            'user_id' => 'required',
+            'note_id' => 'required'
         ]);
+
+        $id = $request->note_id;
 
         $notebook = Notebook::findOrFail($id);
 
