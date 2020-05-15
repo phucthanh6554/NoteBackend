@@ -25,3 +25,8 @@ use Illuminate\Support\Facades\Route;
 Route::post('/user/create', 'Users@create');
 Route::post('/user/login', 'Users@login');
 Route::post('/user/changePassword', 'Users@changePassword');
+
+Route::get('/notebook/show/{user_id}', 'Notebooks@showAll')->where('user_id', '[0-9]+');
+Route::post('/notebook/create', 'Notebooks@create');
+Route::post('/notebook/update/{id}', 'Notebooks@update')->where('id', '[0-9]+');
+Route::post('/notebook/delete/{id}', 'Notebooks@delete')->where('id', '[0-9]+');
