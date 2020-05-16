@@ -33,4 +33,11 @@ Route::middleware(['jwt_verified'])->group(function(){
     Route::post('/notebook/create', 'Notebooks@create');
     Route::post('/notebook/update', 'Notebooks@update');
     Route::post('/notebook/delete', 'Notebooks@delete');
+
+    //Note route
+    Route::get('/note/get', 'Notes@getByID');
+    Route::get('/note/getAll', 'Notes@getByNotebook');
+    Route::post('/note/create', 'Notes@create');
+    Route::post('/note/update', 'Notes@update');
+    Route::post('/note/delete', 'Notes@delete');
 });

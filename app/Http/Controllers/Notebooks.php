@@ -13,6 +13,7 @@ class Notebooks extends Controller
 
         return response()->json($notebooks);
     }
+    
     public function create(Request $request)
     {
         $validateData = $request->validate([
