@@ -7,13 +7,15 @@ use App\Notebook;
 
 class Notebooks extends Controller
 {
-    public function showAll(Request $request, $user_id)
+    public function showAll(Request $request)
     {
-        $notebooks = Notebook::where('user_id', $user_id)->get();
+        $user_id = $request->user_id;
+        //$notebooks = Notebook::where('user_id', $user_id)->get();
+        $notebooks = Notebook::withCount('notes')->where('user_id', $user_id)->get();
 
         return response()->json($notebooks);
     }
-    
+
     public function create(Request $request)
     {
         $validateData = $request->validate([

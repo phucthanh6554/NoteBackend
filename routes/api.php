@@ -29,7 +29,7 @@ Route::middleware(['jwt_verified'])->group(function(){
     Route::post('/user/changePassword', 'Users@changePassword');
 
     // Notebook route
-    Route::get('/notebook/show/{user_id}', 'Notebooks@showAll')->where('user_id', '[0-9]+');
+    Route::get('/notebook/show', 'Notebooks@showAll');
     Route::post('/notebook/create', 'Notebooks@create');
     Route::post('/notebook/update', 'Notebooks@update');
     Route::post('/notebook/delete', 'Notebooks@delete');
