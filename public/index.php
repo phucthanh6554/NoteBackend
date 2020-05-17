@@ -6,7 +6,13 @@
  * @package  Laravel
  * @author   Taylor Otwell <taylor@laravel.com>
  */
-header("Access-Control-Allow-Origin: *");
+
+// Allow for all origins and credentials. Also allow GET, POST, PATCH, and OPTIONS request verbs
+// header('Access-Control-Allow-Origin: *');
+// header('Access-Control-Allow-Credentials: true');
+// header('Access-Control-Allow-Headers: Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers');
+// header('Access-Control-Allow-Methods: GET, POST, PATCH, OPTIONS, DELETE');
+
 define('LARAVEL_START', microtime(true));
 
 /*
