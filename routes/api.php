@@ -29,8 +29,16 @@ Route::middleware(['jwt_verified'])->group(function(){
     Route::post('/user/changePassword', 'Users@changePassword');
 
     // Notebook route
-    Route::get('/notebook/show/{user_id}', 'Notebooks@showAll')->where('user_id', '[0-9]+');
+    Route::get('/notebook/show', 'Notebooks@showAll');
+    Route::get('/notebook/get', 'Notebooks@getOne');
     Route::post('/notebook/create', 'Notebooks@create');
     Route::post('/notebook/update', 'Notebooks@update');
     Route::post('/notebook/delete', 'Notebooks@delete');
+
+    //Note route
+    Route::get('/note/get', 'Notes@getByID');
+    Route::get('/note/getAll', 'Notes@getByNotebook');
+    Route::post('/note/create', 'Notes@create');
+    Route::post('/note/update', 'Notes@update');
+    Route::post('/note/delete', 'Notes@delete');
 });

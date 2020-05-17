@@ -41,7 +41,7 @@ class checkJWT
             $data = (array) JWT::decode($token, $key, ['HS256']);
 
             return ['status' => 'Ok', 'data' => $data];
-        }catch(Exception $e)
+        }catch(\Exception $e)
         {
             return ['status' => 'Error', 'detail' => $e->getMessage()];
         }

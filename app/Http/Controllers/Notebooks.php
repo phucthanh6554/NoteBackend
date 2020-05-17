@@ -7,12 +7,36 @@ use App\Notebook;
 
 class Notebooks extends Controller
 {
-    public function showAll(Request $request, $user_id)
+    public function showAll(Request $request)
     {
-        $notebooks = Notebook::where('user_id', $user_id)->get();
+        $user_id = $request->user_id;
+        //$notebooks = Notebook::where('user_id', $user_id)->get();
+        $notebooks = Notebook::withCount('notes')->where('user_id', $user_id)->get();
 
         return response()->json($notebooks);
     }
+
+    public function getOne(Request $request)
+    {
+        $validateData = $request->validate([
+            'user_id' => 'required',
+            'notebook_id' => 'required'
+        ]);
+
+        $id = $request->notebook_id;
+        $notebook = Notebook::findOrFail($id);
+
+        if($notebook->user_id != $request->user_id)
+        {
+            return response()->json([
+                'status' => 'Error', 
+                'detail' => 'Permission denied'
+            ], 403);
+        }
+
+        return response()->json($notebook);
+    }
+
     public function create(Request $request)
     {
         $validateData = $request->validate([
@@ -33,10 +57,10 @@ class Notebooks extends Controller
     {
         $validateData = $request->validate([
             'user_id' => 'required',
-            'note_id' => 'required'
+            'notebook_id' => 'required'
         ]);
 
-        $id = $request->note_id;
+        $id = $request->notebook_id;
         $notebook = Notebook::findOrFail($id);
 
         if($notebook->user_id != $request->user_id)
@@ -62,10 +86,10 @@ class Notebooks extends Controller
     {
         $validateData = $request->validate([
             'user_id' => 'required',
-            'note_id' => 'required'
+            'notebook_id' => 'required'
         ]);
 
-        $id = $request->note_id;
+        $id = $request->notebook_id;
 
         $notebook = Notebook::findOrFail($id);
 
