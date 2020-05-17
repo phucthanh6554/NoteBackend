@@ -30,6 +30,7 @@ Route::middleware(['jwt_verified'])->group(function(){
 
     // Notebook route
     Route::get('/notebook/show', 'Notebooks@showAll');
+    Route::get('/notebook/get', 'Notebooks@getOne');
     Route::post('/notebook/create', 'Notebooks@create');
     Route::post('/notebook/update', 'Notebooks@update');
     Route::post('/notebook/delete', 'Notebooks@delete');

@@ -16,6 +16,27 @@ class Notebooks extends Controller
         return response()->json($notebooks);
     }
 
+    public function getOne(Request $request)
+    {
+        $validateData = $request->validate([
+            'user_id' => 'required',
+            'notebook_id' => 'required'
+        ]);
+
+        $id = $request->notebook_id;
+        $notebook = Notebook::findOrFail($id);
+
+        if($notebook->user_id != $request->user_id)
+        {
+            return response()->json([
+                'status' => 'Error', 
+                'detail' => 'Permission denied'
+            ], 403);
+        }
+
+        return response()->json($notebook);
+    }
+
     public function create(Request $request)
     {
         $validateData = $request->validate([
@@ -36,10 +57,10 @@ class Notebooks extends Controller
     {
         $validateData = $request->validate([
             'user_id' => 'required',
-            'note_id' => 'required'
+            'notebook_id' => 'required'
         ]);
 
-        $id = $request->note_id;
+        $id = $request->notebook_id;
         $notebook = Notebook::findOrFail($id);
 
         if($notebook->user_id != $request->user_id)
@@ -65,10 +86,10 @@ class Notebooks extends Controller
     {
         $validateData = $request->validate([
             'user_id' => 'required',
-            'note_id' => 'required'
+            'notebook_id' => 'required'
         ]);
 
-        $id = $request->note_id;
+        $id = $request->notebook_id;
 
         $notebook = Notebook::findOrFail($id);
 
