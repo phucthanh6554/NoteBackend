@@ -76,9 +76,9 @@ class Users extends Controller
         $key = env('JWT_KEY');
         $exp = env('JWT_EXP');
         $payload = [
-            'id' => $user->id,
-            'name' => $user->name,
-            'email' => $user->email,
+            'id' => encrypt($user->id),
+            'name' => encrypt($user->name),
+            'email' => encrypt($user->email),
             'exp' => strtotime("+$exp hours")
         ];
 

@@ -23,8 +23,14 @@ class checkJWT
 
         if($tokenData['status'] === 'Ok')
         {
-            $user = $tokenData['data'];
+            $encryptedData = $tokenData['data'];
+
+            $decryptData = $this->decryptData($encryptedData);
+
+            if($decryptData['status'] == 'Error')
+                return response()->json(['status' => 'Error', 'detail' => 'Unvalid Token'], 403);
             
+            $user = $decryptData['data'];
             $request->merge(['user_id'=> $user['id']] );
             $request->merge(['name'=> $user['name']] );
             $request->merge(['email'=> $user['email']] );
@@ -44,6 +50,22 @@ class checkJWT
         }catch(\Exception $e)
         {
             return ['status' => 'Error', 'detail' => $e->getMessage()];
+        }
+    }
+
+    private function decryptData($data)
+    {
+        try{
+            $returnData = [
+                'id' => decrypt($data['id']),
+                'name' => decrypt($data['name']),
+                'email' => decrypt($data['email'])
+            ];
+
+            return ['status' => 'Ok', 'data' => $returnData];
+        }catch(\Exception $e)
+        {
+            return ['status' => 'Error'];
         }
     }
 }
